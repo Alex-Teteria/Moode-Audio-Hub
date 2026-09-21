@@ -1,0 +1,11 @@
+[Unit]
+Description=Shutdown on GPIO6 command
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/gpio6-shutdown.sh
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

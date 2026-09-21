@@ -1,0 +1,11 @@
+[Unit]
+Description=moOde ready signal
+After=nginx.service php8.4-fpm.service mpd.service
+Requires=nginx.service php8.4-fpm.service mpd.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/moode-ready.sh
+
+[Install]
+WantedBy=multi-user.target
