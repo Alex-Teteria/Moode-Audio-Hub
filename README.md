@@ -121,6 +121,33 @@ KEY_MUTE        1      /usr/bin/mpc toggle
 Після зміни конфігурації необхідно перезапустити `triggerhappy`:  
 `sudo systemctl restart triggerhappy`
 
+## 🔧 Hardware
+
+### Power Management Controller
+
+Система керування живленням [Power-control-schematic](moode_audio_hub.pdf) побудована на **ATtiny13** та P-канальному MOSFET. Контролер реалізує автоматичне ввімкнення Raspberry Pi 4, контроль завершення завантаження, ініціацію безпечного вимкнення та фізичне знеструмлення Raspberry Pi після завершення роботи ОС.
+
+Основні сигнали між ATtiny13 та Raspberry Pi:
+
+| ATtiny13 | Напрямок | Raspberry Pi 4 | Призначення |
+|---|---|---|---|
+| PB0 | OUT | — | Керування P-MOSFET |
+| PB1 | IN | GPIO23 | Сигнал готовності Moode Audio |
+| PB2 | IN | Pin 1 (+3.3V) | Контроль завершення вимкнення |
+| PB3 | IN | — | Перемикач ON/OFF |
+| PB4 | OUT | GPIO6 | Команда Shutdown |
+| PB5 | OUT | — | Зелений LED |
+
+Детальна електрична схема, номінали компонентів, фізичні номери контактів Raspberry Pi, підключення MOSFET, ATtiny13 та ланцюгів керування наведені у **[Power-control-schematic](moode_audio_hub.pdf)**.
+
+### Audio Interface
+
+Аудіоплата розширення типу PiFi DAC+ підключена до GPIO-роз'єма Raspberry Pi за допомогою 40-pin шлейфа.
+
+### USB Encoder
+
+USB HID-енкодер використовується для апаратного керування гучністю та відтворенням.
+
 ## 🛠️ Особливості монтажу та конструкції
 
 Оскільки звукова карта встановлюється на GPIO-роз'єм Raspberry Pi 4 і перекриває доступ до інших пінів, для підключення плати керування та організації живлення було використано **GPIO розширювач (Y-splitter)** з конфігурацією:
